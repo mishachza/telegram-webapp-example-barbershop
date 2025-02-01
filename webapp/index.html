@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Web App</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>РОВНЫЙ ТИП</h1>
+        <h2>BARBERSHOP</h2>
+    </div>
+
+
+    <div class="button-container-open" id="openButtonContainer">
+        <button class="button-open" id="openList">Подровняться</button>
+    </div>
+
+    <div class="barber-list" id="barberList">
+        
+        <button class="button-close" id="closeList">
+            <img src="https://cdn-icons-png.flaticon.com/512/271/271220.png" alt="Назад" class="back-button-icon">
+        </button>
+
+
+        <h3>Выберите мастера:</h3>
+        <div class="master-container" onclick="animateContainer()">
+            <div class="photo">
+                <img src="../assets/images/drovosekov.png">
+            </div>
+            <div class="master-name">Иван Дровосеков</div>
+            <button class="rating-button">124 отзыва</button>
+        </div>
+        <div class="master-container" onclick="animateContainer()">
+            <div class="photo">
+                <img src="../assets/images/TatianaPostrigaeva.png">
+            </div>
+            <div class="master-name">Таня Постригайлова</div>
+            <button class="rating-button">358 отзывов</button>
+        </div>
+        <div class="master-container" onclick="animateContainer()">
+            <div class="photo">
+                <img src="../assets/images/stigmatamatorev.png">
+            </div>
+            <div class="master-name">Стигмат Аматорев</div>
+            <button class="rating-button">99 отзывов</button>
+        </div>
+        <div class="master-container" onclick="animateContainer()">
+            <div class="photo">
+                <img src="../assets/images/pivalych.png">
+            </div>
+            <div class="master-name">Пив Алыч</div>
+            <button class="rating-button">999 отзывов</button>
+        </div>
+    </div>
+
+
+
+    <script>
+        const openButton = document.getElementById('openButtonContainer');
+        const closeButton = document.getElementById('closeList');
+        const barberList = document.getElementById('barberList');
+
+        openButton.onclick = function () {
+                barberList.style.display = 'block';
+                openButton.style.display = 'none';
+            };
+
+        closeButton.onclick = function () {
+                barberList.style.display = 'none';
+                openButton.style.display = 'block';
+                openButton.style.display = 'flex'
+                openButton.style.flexGrow = 1;
+                
+            };
+
+    </script>
+</body>
+</html>

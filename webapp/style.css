@@ -1,0 +1,132 @@
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../assets/images/back.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.header {
+    margin-top: 20px; /* Отступ сверху для заголовка */
+    text-align: center; /* Центрирование текста */
+}
+
+h1, h2 {
+    margin: 0; /* Убираем отступы */
+}
+
+h1 {
+    font-size: 45px;
+    font-family: 'Roboto Slab', serif;
+    color: #D0A003;
+}
+
+h2 {
+    font-size: 36px;
+    font-family: 'Roboto Flex', serif;
+    color: #fff;
+}
+
+.button-container-open {
+    display: flex;
+    justify-content: center; 
+    align-items: center; /* Центрирование по вертикали */
+    width: 100%; /* Контейнер занимает всю ширину */
+    flex-grow: 1;
+
+}
+
+.button-open {
+    border: 2px solid #D0A003; /* Обводка кнопки */
+    background-color: transparent; /* Прозрачный фон */
+    color: #D0A003; /* Цвет текста */
+    padding: 15px 30px;
+    font-size: 29px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Плавное увеличение */
+}
+
+.button-close {
+    border: 0;
+    width: 50px;
+    height: 50px;
+    background-color: transparent; /* Прозрачный фон */
+    color: #D0A003; /* Цвет текста */
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Плавное увеличение */
+}
+
+.button-open:hover, .button-close:hover {
+    transform: scale(1.1); /* Увеличение кнопки при наведении */
+}
+
+
+
+.barber-list {
+    display: none; /* Скрываем список парикмахеров по умолчанию */
+    background-color: white; /* Белый фон для контейнера */
+    color: black; /* Черный цвет текста */
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px; /* Отступ сверху для списка */
+    width: 80%; /* Ширина контейнера с парикмахерами */
+}
+
+.back-button {
+    display: flex;
+
+}
+
+.back-button-icon {
+    width: 16px; /* Ширина иконки */
+    height: 16px; /* Высота иконки */
+    margin-right: 8px; /* Отступ между иконкой и текстом */
+}
+
+.master-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+.master-name {
+    margin-right: auto;
+    margin-left: 15px;
+    font-family: 'Roboto Flex', serif;
+    font-size: 27px;
+}
+
+.photo {
+    border-radius: 50%;
+    margin: 15px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    display: flex; /* Flexbox для центрирования изображения */
+    justify-content: center;
+    align-items: center;
+}
+
+.photo img {
+    width: 100%; /* Изображение занимает всю ширину контейнера */
+    height: 100%; /* Изображение занимает всю высоту контейнера */
+    object-fit: cover; /* Сохраняем пропорции изображения и заполняем контейнер */
+}
+
+.rating-button {
+    background-color: transparent;
+    color: #D0A003;
+    border: 2px solid #D0A003;
+    font-family: 'Roboto Flex', serif;
+    font-size: 27px;
+    margin-right: 15px;
+}
