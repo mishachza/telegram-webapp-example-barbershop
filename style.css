@@ -9,11 +9,24 @@ body {
     background-image: url('assets/images/back.jpg');
     background-size: cover;
     background-position: center;
+    position: relative;
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
 .header {
     margin-top: 20px;
     text-align: center;
+    z-index: 2;
 }
 
 h1, h2 {
@@ -38,6 +51,7 @@ h2 {
     align-items: center;
     width: 100%;
     flex-grow: 1;
+    z-index: 2;
 
 }
 
@@ -69,46 +83,44 @@ h2 {
 .title-back-container {
     display: flex;
     flex-direction: row;
+    /* justify-content: space-between; */
     align-items: center;
     width: 100%;
-    position: relative;
+    height: 50px;
 }
 
 .title-page {
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-family: 'Roboto Slab', serif;
-    font-size: 16px;
-    color: #d03303;
-}
+    font-family: 'Roboto Flex', sans-serif;
 
-.title-page img {
-    width: 30px;
-    height: 30px;
+    font-size: 14px;
+    color: #ffffff;
     margin-left: 20px;
 }
 
 .back-button {
     display: flex;
-
 }
 
 .back-button-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
+    width: 25px;
+    height: 25px;
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg);
 }
 
 .barber-list {
     display: none;
-    background-color: white;
-    color: black;
-    padding: 7px;
+    color: rgb(255, 255, 255);
     border-radius: 5px;
     margin-top: 20px;
     width: 80%;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
 }
+
 
 .master-container {
     display: flex;
@@ -119,16 +131,25 @@ h2 {
     position: relative;
 }
 
+.master-container:hover {
+    background-color: #000000d3;
+}
+
+.master-container:hover .master-name,
+.master-container:active .master-name,
+.master-container:active .photo img,
+.master-container:hover .photo img {
+    transform: scale(1.1);
+}
+
 .master-name {
     margin-right: auto;
-    margin-left: 5px;
     font-family: 'Roboto Flex', serif;
     font-size: 14px;
+    transition: transform 0.3s ease;
 }
 
 .photo {
-    border-radius: 50%;
-    margin: 15px;
     width: 100px;
     height: 100px;
     overflow: hidden;
@@ -138,12 +159,16 @@ h2 {
 }
 
 .photo img {
-    width: 100%;
-    height: 100%;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
 }
 
 .rating-button {
+    display: flex;
+    flex-direction: row;
     background-color: transparent;
     color: #D0A003;
     border: 0px solid #D0A003;
@@ -156,4 +181,6 @@ h2 {
 .raiting-star-icon {
     width: 14px;
     height: 14px;
+    margin-left: 10px;
+    margin-right: 15px;
 }
