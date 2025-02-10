@@ -41,6 +41,10 @@ export default {
 </script>
 
 <style>
+  body {
+  margin: 0;
+  }
+
   .app {
     display: flex;
     flex-direction: column;
@@ -49,13 +53,11 @@ export default {
     background-image: url('@/assets/back.jpg');
     background-size: cover;
     background-position: center;
-    padding: 0;
-    margin: 0;
   }
 
   ::-webkit-scrollbar {
   width: 0px;
-}
+  }
 
   .header {
       margin-top: 20px;
