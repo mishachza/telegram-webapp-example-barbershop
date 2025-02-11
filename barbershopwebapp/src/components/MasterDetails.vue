@@ -13,40 +13,49 @@
       <button class="rating-button"><b>{{ master.rating }}</b> <img src="@/assets/icons/star.png" alt="rating" class="rating-star-icon"></button>
     </div>
 
-    <div class="available-times">
-      <h3>Свободное время на сегодня:</h3>
+    <div v-if="!showCalendar" class="available-times">
+      <div class="available-times-text">Свободное время на сегодня:</div>
       <div class="time-buttons">
         <button v-for="time in availableTimes" :key="time" class="time-button">{{ time }}</button>
       </div>
     </div>
 
-    <button class="calendar-button">Открыть календарь</button>
+    <button v-if="!showCalendar" class="calendar-button" @click="showCalendar = true">Открыть календарь</button>
+    <SimpleCalendar v-if="showCalendar" @time-selected="handleTimeSelected" />
   </div>
 </template>
 
 <script>
 import BackButton from './BackButton.vue';
+import SimpleCalendar from './SimpleCalendar.vue';
 
 export default {
   components: {
-    BackButton
+    BackButton,
+    SimpleCalendar,
   },
   props: {
     master: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      availableTimes: ['10:00', '11:30', '14:00', '16:30']
+      availableTimes: ['10:00', '11:30', '14:00', '16:30'],
+      showCalendar: false,
     };
   },
   methods: {
     closeDetails() {
       this.$emit('close');
-    }
-  }
+    },
+    handleTimeSelected(selectedTime) {
+      //TODO: Отправить данные о выбранном времени
+      alert(`Выбрано время: ${selectedTime}`);
+      this.showCalendar = false; // Закрыть календарь после выбора времени (опционально)
+    },
+  },
 };
 </script>
 
@@ -76,7 +85,7 @@ export default {
 }
 
 .master-info {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
@@ -104,28 +113,33 @@ export default {
   background-color: transparent;
   color: #D0A003;
   border: 0px solid #D0A003;
-  font-family: 'Roboto Flex', serif;
   font-size: 14px;
   align-items: center;
   justify-content: center;
+  margin-top: 5px;
 }
 
 .rating-star-icon {
   width: 14px;
   height: 14px;
-  margin-left: 10px;
+  margin-left: 3px;
   margin-right: 15px;
+}
+
+.available-times-text {
+  font-family: sans-serif;
+  font-size: 16px;
 }
 
 .available-times {
   margin-bottom: 20px;
-  text-align: center; /* Выравнивание текста по центру */
+  text-align: center;
 }
 
 .time-buttons {
   display: flex;
-  flex-wrap: wrap; /* Перенос кнопок на новую строку, если не помещаются */
-  justify-content: center; /* Выравнивание кнопок по центру */
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .time-button {
