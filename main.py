@@ -1,11 +1,13 @@
 import asyncio
 import logging
+import json
 from typing import Any, Callable, Dict, Awaitable
 
 from aiogram import Bot, Dispatcher, Router, F, BaseMiddleware
-from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, WebAppData, TelegramObject
+from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, WebAppData, TelegramObject, ContentType
 from aiogram.filters import CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
+from aiogram.enums.parse_mode import ParseMode
 
 from config import TELEGRAM_BOT_TOKEN
 
@@ -24,9 +26,10 @@ async def get_start(message: Message, state: FSMContext):
     print(message)
     await message.answer('Записаться можно нажав кнопку.', reply_markup=keyboard)
 
-@dp.message()
-async def web_app2(message: Message):
-    print(message)
+@dp.message(F.content_type == ContentType.WEB_APP_DATA)
+async def parse_data(message: Message):
+    data = json.loads(message.web_app_data.data)
+    await message.answer(f'<b>{data["title"]}</b>\n\n<code>{data["desc"]}</code>\n\n{data["text"]}', parse_mode=ParseMode.HTML)
 
 
 class CheckUserMiddleware(BaseMiddleware):
@@ -40,7 +43,7 @@ class CheckUserMiddleware(BaseMiddleware):
 
 
 async def main():
-    dp.message.middleware.register(CheckUserMiddleware())
+    # dp.message.middleware.register(CheckUserMiddleware())
     await dp.start_polling(bot)
 
 

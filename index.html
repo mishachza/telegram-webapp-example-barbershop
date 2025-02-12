@@ -3,87 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web App</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            color: var(--tg-theme-text-color);
+            background: var(--tg-theme-bg-color);
+        }
+
+        .Main {
+            width: 100%;
+            padding: 25px;
+            text-align: center;
+
+        }
+
+        h1 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+
+        img {
+            width: 70px;
+            margin: 30px auto;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 5px;
+            margin-top: 50px;
+            height: 60px;
+            width: 200px;
+            font-style: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--tg-theme-button-text-color);
+            background: var(--tg-theme-button-color);
+        }
+
+        form {
+            display: none;
+            text-align: center;
+        }
+        
+        input {
+            outline: none;
+            border-radius: 5px;
+            border: 2px solid #535353;
+            padding: 15px 10px;
+            margin: 10px 0 0;
+            background: var(--tg-theme-section-separator-color);
+            color: var(--tg-theme-text-color);
+            transition: all .2s;
+        }
+        
+        input:focus {
+            border-color: var(--tg-theme-secondary-bg-color)
+        }
+        
+    </style>
 </head>
 <body>
-    <div class="header">
-        <h1>РОВНЫЙ ТИП</h1>
-        <h2>BARBERSHOP</h2>.
+    <div class="Main">
+        <h1>Тестовое приложение</h1>
+        <img src="{{ url_for('static', filename='bot.png') }}" alt="">
+        <p></p>
+        <button class="btn f-btn">Тест отправки данных</button>
     </div>
+    <form class="test-form">    
+        <input type="text" placeholder="Введите заголовок" class="title-inp">
+        <input type="text" placeholder="Введите описание" class="desc-inp">
+        <input type="text" placeholder="Введите текст" class="text-inp">
+        <button class="btn s-btn">Отправить</button>
+    </form>
 
-
-    <div class="button-container-open" id="openButtonContainer">
-        <button class="button-open" id="openList">ПОДРОВНЯТЬСЯ</button>
-    </div>
-
-    <div class="barber-list" id="barberList">
-
-        <div class="title-back-container">
-            <button class="button-close" id="closeList">
-                <img src="assets/images/icons/back-line.svg" alt="Назад" class="back-button-icon">
-            </button>
-    
-    
-            <div class="title-page"><h3>ВЫБОР МАСТЕРА</h3></div>
-        </div>
-        
-        
-        <div class="master-container" onclick="animateContainer()">
-            <div class="photo">
-                <img src="assets/images/drovosekov.png">
-            </div>
-            <div class="master-name"><b>РЕДНЕК <br>ЛАМБЕРДЖЕКОВ</b></div>
-            <button class="rating-button">124 <img src="assets/images/icons/star.png" alt="raiting" class="raiting-star-icon"></button>
-        </div>
-        <div class="master-container" onclick="animateContainer()">
-            <div class="photo">
-                <img src="assets/images/TatianaPostrigaeva.png">
-            </div>
-            <div class="master-name"><b>ВЕНЕРА <br>КОЗЕРОГОВНА</b></div>
-            <button class="rating-button">358 <img src="assets/images/icons/star.png" alt="raiting" class="raiting-star-icon"></button>
-        </div>
-        <div class="master-container" onclick="animateContainer()">
-            <div class="photo">
-                <img src="assets/images/stigmatamatorev.png">
-            </div>
-            <div class="master-name"><b>СТИГМАТ <br>АМАТОРЕВ</b></div>
-            <button class="rating-button">99 <img src="assets/images/icons/star.png" alt="raiting" class="raiting-star-icon"></button>
-        </div>
-        <div class="master-container" onclick="animateContainer()">
-            <div class="photo">
-                <img src="assets/images/pivalych.png">
-            </div>
-            <div class="master-name"><b>ПИВ <br>АЛЫЧ</b></div>
-            <button class="rating-button">999 <img src="assets/images/icons/star.png" alt="raiting" class="raiting-star-icon"></button>
-        </div>
-    </div>
-
-    
-
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <script>
-        const openButton = document.getElementById('openButtonContainer');
-        const closeButton = document.getElementById('closeList');
-        const barberList = document.getElementById('barberList');
+        let tg = window.Telegram.WebApp;
 
-        openButton.onclick = function () {
-                barberList.style.display = 'block';
-                openButton.style.display = 'none';
-            };
+        let fBtn = document.getElementsByClassName("f-btn")[0]
+        let sBtn = document.getElementsByClassName("s-btn")[0]
 
-        closeButton.onclick = function () {
-                barberList.style.display = 'none';
-                openButton.style.display = 'block';
-                openButton.style.display = 'flex'
-                openButton.style.flexGrow = 1;
-                
-            };
+        fBtn.addEventListener("click", () => {
+            document.getElementsByClassName("Main")[0].style.display = "none";
+            document.getElementsByClassName("test-form")[0].style.display = "block";
+        });
 
+        sBtn.addEventListener("click", () => {
+            tg.close();
+        });
     </script>
 </body>
 </html>
