@@ -16,7 +16,7 @@
     <div v-if="!showCalendar" class="available-times">
       <div class="available-times-text">Свободное время на сегодня:</div>
       <div class="time-buttons">
-        <button v-for="time in availableTimes" :key="time" class="time-button">{{ time }}</button>
+        <button v-for="time in availableTimes" :key="time" class="time-button" @click="selectTime(time)">{{ time }}</button>
       </div>
     </div>
 
@@ -46,14 +46,34 @@ export default {
       showCalendar: false,
     };
   },
+  mounted() {
+    // Проверка, что Telegram Web App API доступен
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready(); // Говорим Telegram, что Web App готов
+    } else {
+      console.warn('Telegram Web App API не доступен');
+    }
+  },
   methods: {
     closeDetails() {
       this.$emit('close');
     },
     handleTimeSelected(selectedTime) {
-      //TODO: Отправить данные о выбранном времени
-      alert(`Выбрано время: ${selectedTime}`);
-      this.showCalendar = false; // Закрыть календарь после выбора времени (опционально)
+      this.selectTime(selectedTime);
+      this.showCalendar = false;
+    },
+    selectTime(time) {
+      const data = JSON.stringify({
+        time: time,
+        masterName: this.master.name,
+      });
+
+      if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.sendData(data);
+        alert('Время отправлено в бот!');
+      } else {
+        alert('Telegram Web App API не доступен.');
+      }
     },
   },
 };
