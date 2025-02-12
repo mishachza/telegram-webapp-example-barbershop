@@ -5,6 +5,10 @@
       <h2>BARBERSHOP</h2>
     </div>
 
+    <div v-if="userData" class="user-info">
+      <p>{{ userDataString }}</p>
+    </div>
+
     <OpenButton v-if="!openList" @click="showBarberList" />
 
     <BarberList v-if="openList" @close="hideBarberList" ref="barberList"/>
@@ -23,8 +27,26 @@ export default {
 
   data() {
     return {
-      openList: false
+      openList: false,
+      userData: null,
     };
+  },
+  mounted() {
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      this.fetchUserData();
+    } else {
+      console.warn('Telegram Web App API не доступен');
+    }
+  },
+  computed: {
+    userDataString() {
+      if (this.userData) {
+        return `ID: ${this.userData.id}, Имя: ${this.userData.first_name}, Фамилия: ${this.userData.last_name || ''}, Username: ${this.userData.username || ''}`;
+      } else {
+        return 'Данные пользователя не получены.';
+      }
+    }
   },
   methods: {
     showBarberList() {
@@ -33,12 +55,35 @@ export default {
     hideBarberList() {
       this.openList = false;
     },
-    sendDataToBot() {
-
-    }
+    fetchUserData() {
+      if (window.Telegram && window.Telegram.WebApp) {
+        try {
+          this.userData = window.Telegram.WebApp.initDataUnsafe.user;
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          this.userData = { error: "Failed to fetch user data" };
+        }
+      }
+    },
   }
 };
 </script>
+
+<style scoped>
+  .user-info {
+    margin-top: 20px;
+    color: white;
+    font-size: 16px;
+    font-family: 'Roboto Flex', serif;
+  }
+
+  .user-info p {
+    margin: 0;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+  }
+</style>
 
 <style>
   body {
