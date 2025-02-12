@@ -59,9 +59,25 @@ export default {
       if (window.Telegram && window.Telegram.WebApp) {
         try {
           this.userData = window.Telegram.WebApp.initDataUnsafe.user;
+          this.sendDataToBot(); // Отправляем данные в бот
         } catch (error) {
           console.error("Error fetching user data:", error);
           this.userData = { error: "Failed to fetch user data" };
+        }
+      }
+    },
+    sendDataToBot() {
+      if (window.Telegram && window.Telegram.WebApp && this.userData) {
+        const data = JSON.stringify({
+          type: 'userData',
+          user: this.userData
+        });
+
+        try {
+          window.Telegram.WebApp.sendData(data);
+          console.log('Данные пользователя отправлены в бот:', data);
+        } catch (error) {
+          console.error('Ошибка отправки данных в бот:', error);
         }
       }
     },

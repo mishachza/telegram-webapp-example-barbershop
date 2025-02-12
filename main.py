@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from typing import Any, Callable, Dict, Awaitable
 
 from aiogram import Bot, Dispatcher, Router, F, BaseMiddleware
@@ -35,7 +36,7 @@ class CheckUserMiddleware(BaseMiddleware):
             event: Message,
             data: Dict[str, Any],
     ) -> Any:
-        print(event)
+        logging.info(f"Получено событие: {event}")
 
 
 async def main():
