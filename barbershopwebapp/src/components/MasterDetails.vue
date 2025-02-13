@@ -16,7 +16,7 @@
     <div v-if="!showCalendar" class="available-times">
       <div class="available-times-text">Свободное время на сегодня:</div>
       <div class="time-buttons">
-        <button v-for="time in availableTimes" :key="time" class="time-button" @click="selectTime(time)">{{ time }}</button>
+        <button v-for="time in availableTimes" :key="time" class="time-button" >{{ time }}</button>
       </div>
     </div>
 
@@ -63,24 +63,15 @@ export default {
       this.showCalendar = false;
     },
     selectTime(time) {
-      // Создаем объект данных для отправки
-      const data = {
+      let tg = window.Telegram.WebApp;
+      let data = JSON.stringify({
         time: time,
         masterName: this.master.name,
-        title: 'Запись на стрижку', // Пример заголовка
-        description: `Вы выбрали время ${time} для мастера ${this.master.name}`,
-        text: 'Пожалуйста, подтвердите запись.',
-      };
+      });
 
-      // Отправляем данные в бот через Telegram WebApp API
       if (window.Telegram && window.Telegram.WebApp) {
-        try {
-          window.Telegram.WebApp.sendData(JSON.stringify(data)); // Отправка данных
-          alert('Данные успешно отправлены в бот!');
-        } catch (error) {
-          console.error('Ошибка отправки данных в бот:', error);
-          alert('Ошибка при отправке данных.');
-        }
+        tg.sendData(data);
+        alert('Время отправлено в бот!');
       } else {
         alert('Telegram Web App API не доступен.');
       }
@@ -119,6 +110,8 @@ export default {
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .photo {
@@ -126,6 +119,7 @@ export default {
   height: 150px;
   border-radius: 50%;
   overflow: hidden;
+  margin: 0 auto 10px;
 }
 
 .photo img {
@@ -139,26 +133,54 @@ export default {
   flex-direction: row;
   background-color: transparent;
   color: #D0A003;
-  border: none;
+  border: 0px solid #D0A003;
+  font-size: 14px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
 }
 
 .rating-star-icon {
   width: 14px;
+  height: 14px;
+  margin-left: 3px;
+  margin-right: 15px;
 }
 
 .available-times-text {
   font-family: sans-serif;
+  font-size: 16px;
 }
 
 .available-times {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .time-buttons {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .time-button {
   background-color: #D0A003;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.calendar-button {
+  background-color: transparent;
+  color: #D0A003;
+  border: 2px solid #D0A003;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 40px;
 }
 </style>

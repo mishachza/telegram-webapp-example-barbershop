@@ -19,21 +19,22 @@ webapp_url = 'https://telegram-webapp-example-barbershop.onrender.com/'
 webapp_url_test = 'https://mishachza.github.io/telegram-webapp-example-barbershop/'
 
 
-@dp.message(CommandStart(), StateFilter('*'))
-async def get_start(message: Message, state: FSMContext):
-    await state.clear()
-    webapp = [[InlineKeyboardButton(text=f'Оплатить', web_app=WebAppInfo(url=webapp_url))]]
-    keyboard = InlineKeyboardMarkup(inline_keyboard=webapp)
-    print(message)
-    await message.answer('Записаться можно нажав кнопку.', reply_markup=keyboard)
-    await message.answer(
-        'Записаться можно нажав кнопку.',
-        reply_markup=InlineKeyboardMarkup(
-            inline_keyboard=[[InlineKeyboardButton(text=f'Оплатить', web_app=WebAppInfo(url=webapp_url_test))]]))
+# @dp.message(CommandStart(), StateFilter('*'))
+# async def get_start(message: Message, state: FSMContext):
+#     await state.clear()
+#     webapp = [[InlineKeyboardButton(text=f'Оплатить', web_app=WebAppInfo(url=webapp_url))]]
+#     keyboard = InlineKeyboardMarkup(inline_keyboard=webapp)
+#     print(message)
+#     await message.answer('Записаться можно нажав кнопку.', reply_markup=keyboard)
+#     await message.answer(
+#         'Записаться можно нажав кнопку.',
+#         reply_markup=InlineKeyboardMarkup(
+#             inline_keyboard=[[InlineKeyboardButton(text=f'Оплатить', web_app=WebAppInfo(url=webapp_url_test))]]))
 
 
 @dp.message(F.content_type == ContentType.WEB_APP_DATA)
 async def parse_data(message: Message):
+    print(message)
     data = json.loads(message.web_app_data.data)
     print(data)
     await message.answer(f'<b>{data["title"]}</b>\n\n<code>{data["desc"]}</code>\n\n{data["text"]}', parse_mode=ParseMode.HTML)
