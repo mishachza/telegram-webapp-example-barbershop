@@ -2,11 +2,13 @@ from typing import Dict
 import hashlib
 import hmac
 import urllib.parse
+import asyncio
 
 from fastapi import FastAPI, HTTPException, Depends, Request
 from pydantic import BaseModel
 
-from config import TELEGRAM_BOT_TOKEN
+from config import TELEGRAM_BOT_TOKEN, ADMIN_TELEGRAM_ID
+from main import bot
 
 
 app = FastAPI()
@@ -52,4 +54,9 @@ class InitDataRequest(BaseModel):
 @app.post("/api/validate_init_data", response_model=ValidationResponse)
 async def validate_init_data_endpoint(request: InitDataRequest):
     is_valid = validate_telegram_data(request.initData)
+    if is_valid:
+        message = "Данные валидны."
+    else:
+        message = "Данные не валидны."
+    asyncio.create_task(bot.send_message(chat_id=int(ADMIN_TELEGRAM_ID), text=message))
     return ValidationResponse(isValid=is_valid)
