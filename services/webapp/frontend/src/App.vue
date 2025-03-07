@@ -9,6 +9,10 @@
       <p>{{ userDataString }}</p>
     </div>
 
+    <div v-if="showError" class="error-message">
+      <p>Ошибка валидации данных.</p>
+    </div>
+
     <OpenButton v-if="!openList" @click="showBarberList" />
 
     <BarberList v-if="openList" @close="hideBarberList" ref="barberList"/>
@@ -16,6 +20,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import BarberList from './components/BarberList.vue';
 import OpenButton from './components/OpenButton.vue';
 
@@ -29,6 +34,7 @@ export default {
     return {
       openList: false,
       userData: null,
+      showError: false,
     };
   },
   mounted() {
@@ -58,26 +64,22 @@ export default {
     fetchUserData() {
       if (window.Telegram && window.Telegram.WebApp) {
         try {
-          this.userData = window.Telegram.WebApp.initDataUnsafe.user;
-          this.sendDataToBot(); // Отправляем данные в бот
+          const initData = window.Telegram.WebApp.initData;
+          axios.post('/api/validate_init_data', { initData: initData })
+            .then(response => {
+              if (response.data.isValid) {
+                this.userData = response.data.userData;
+              } else {
+                this.showError = true;
+              }
+            })
+            .catch(error => {
+              console.error("Ошибка отправки initData:", error);
+              this.showError = true;
+            });
         } catch (error) {
           console.error("Error fetching user data:", error);
-          this.userData = { error: "Failed to fetch user data" };
-        }
-      }
-    },
-    sendDataToBot() {
-      if (window.Telegram && window.Telegram.WebApp && this.userData) {
-        const data = JSON.stringify({
-          type: 'userData',
-          user: this.userData
-        });
-
-        try {
-          window.Telegram.WebApp.sendData(data);
-          console.log('Данные пользователя отправлены в бот:', data);
-        } catch (error) {
-          console.error('Ошибка отправки данных в бот:', error);
+          this.showError = true;
         }
       }
     },

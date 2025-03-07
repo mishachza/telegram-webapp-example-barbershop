@@ -16,7 +16,7 @@
     <div v-if="!showCalendar" class="available-times">
       <div class="available-times-text">Свободное время на сегодня:</div>
       <div class="time-buttons">
-        <button v-for="time in availableTimes" :key="time" class="time-button" >{{ time }}</button>
+        <button v-for="time in availableTimes" :key="time" class="time-button"  @click="handleTimeSelected(time)">{{ time }}</button>
       </div>
     </div>
 
@@ -71,6 +71,7 @@ export default {
 
       if (window.Telegram && window.Telegram.WebApp) {
         tg.sendData(data);
+        tg.answerWebAppQuery(data)
         alert('Время отправлено в бот!');
       } else {
         alert('Telegram Web App API не доступен.');
